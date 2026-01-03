@@ -12,7 +12,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(SCRIPT_DIR, "Images/template.png")
 FONT_PATH = os.path.join(SCRIPT_DIR, "fonts/Poppins-Bold.ttf")
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output")
-FLAGS_DIR = os.path.join(SCRIPT_DIR, "Images/flags")
+FLAGS_DIR = os.path.join(SCRIPT_DIR, "images/flags")
 COUNTRIES_DIR = os.path.join(SCRIPT_DIR, "Images/countries")
 
 # ---------- COUNTRY TO FLAG MAPPING ----------
