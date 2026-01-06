@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import os
+import random
 
 # ---------- INPUT ----------
 CITY = "Bawana Industrial Area"
@@ -81,13 +82,13 @@ def wrap_text(text, max_chars=22):
 
 def get_country_images(country_name):
     """Get all country images for a given country.
-    Handles both single PNG files (e.g., Belgium.png) and directories (e.g., india/india1.png).
+    Handles both single PNG files (e.g., Belgium.png) and multiple numbered files (e.g., india1.png, india2.png).
     """
     country_images = []
     country_lower = country_name.lower()
     country_title = country_name.title()
     
-    # Check for single PNG file directly in countries directory (e.g., Belgium.png, India.png)
+    # Check for single PNG file directly in countries directory (e.g., Belgium.png)
     single_file_title = os.path.join(COUNTRIES_DIR, f"{country_title}.png")
     single_file_lower = os.path.join(COUNTRIES_DIR, f"{country_lower}.png")
     
@@ -96,13 +97,16 @@ def get_country_images(country_name):
     elif os.path.exists(single_file_lower):
         country_images.append(single_file_lower)
     
-    # Check for subdirectory with multiple images (e.g., india/india1.png, india2.png, etc.)
-    country_dir = os.path.join(COUNTRIES_DIR, country_lower)
-    if os.path.exists(country_dir) and os.path.isdir(country_dir):
-        images = sorted([f for f in os.listdir(country_dir) if f.endswith('.png')])
-        country_images.extend([os.path.join(country_dir, img) for img in images])
+    # Check for numbered files (e.g., india1.png, india2.png, indian2.png)
+    if os.path.exists(COUNTRIES_DIR):
+        for filename in os.listdir(COUNTRIES_DIR):
+            if filename.lower().startswith(country_lower) and filename.endswith('.png'):
+                # Skip if already added as single file
+                file_path = os.path.join(COUNTRIES_DIR, filename)
+                if file_path not in country_images:
+                    country_images.append(file_path)
     
-    return country_images
+    return sorted(country_images)
 
 # ---------- LOAD ----------
 base = Image.open(TEMPLATE).convert("RGBA")
@@ -145,21 +149,21 @@ base_width, base_height = base.size
 origin_country_images = get_country_images(ORIGIN_COUNTRY)
 if origin_country_images:
     print(f"[OK] Found {len(origin_country_images)} origin country images for {ORIGIN_COUNTRY}")
-    # Use the first image (or only image) for the left side
-    for idx, img_path in enumerate(origin_country_images[:1]):  # Only use first image
-        try:
-            country_img = Image.open(img_path).convert("RGBA")
-            # Resize country image to appropriate size (adjust as needed)
-            img_width = 300
-            img_height = int(country_img.height * (img_width / country_img.width))
-            country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
-            # Position on left side (adjust coordinates as needed)
-            img_x = 100
-            img_y = base_height - img_height - 150
-            base.paste(country_img, (img_x, img_y), country_img)
-            print(f"[OK] Pasted origin country image: {img_path}")
-        except Exception as e:
-            print(f"[WARNING] Error loading origin country image {img_path}: {e}")
+    # Randomly select one image from available images
+    selected_image = random.choice(origin_country_images)
+    try:
+        country_img = Image.open(selected_image).convert("RGBA")
+        # Resize country image to appropriate size (adjust as needed)
+        img_width = 300
+        img_height = int(country_img.height * (img_width / country_img.width))
+        country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
+        # Position on left side (adjust coordinates as needed)
+        img_x = 100
+        img_y = base_height - img_height - 150
+        base.paste(country_img, (img_x, img_y), country_img)
+        print(f"[OK] Pasted origin country image: {selected_image}")
+    except Exception as e:
+        print(f"[WARNING] Error loading origin country image {selected_image}: {e}")
 else:
     print(f"[WARNING] No origin country images found for: {ORIGIN_COUNTRY}")
 
@@ -167,21 +171,21 @@ else:
 dest_country_images = get_country_images(COUNTRY)
 if dest_country_images:
     print(f"[OK] Found {len(dest_country_images)} destination country images for {COUNTRY}")
-    # Use the first image (or only image) for the right side
-    for idx, img_path in enumerate(dest_country_images[:1]):  # Only use first image
-        try:
-            country_img = Image.open(img_path).convert("RGBA")
-            # Resize country image to appropriate size
-            img_width = 300
-            img_height = int(country_img.height * (img_width / country_img.width))
-            country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
-            # Position on right side (adjust coordinates as needed)
-            img_x = base_width - img_width - 100
-            img_y = base_height - img_height - 150
-            base.paste(country_img, (img_x, img_y), country_img)
-            print(f"[OK] Pasted destination country image: {img_path}")
-        except Exception as e:
-            print(f"[WARNING] Error loading destination country image {img_path}: {e}")
+    # Randomly select one image from available images
+    selected_image = random.choice(dest_country_images)
+    try:
+        country_img = Image.open(selected_image).convert("RGBA")
+        # Resize country image to appropriate size
+        img_width = 300
+        img_height = int(country_img.height * (img_width / country_img.width))
+        country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
+        # Position on right side (adjust coordinates as needed)
+        img_x = base_width - img_width - 100
+        img_y = base_height - img_height - 150
+        base.paste(country_img, (img_x, img_y), country_img)
+        print(f"[OK] Pasted destination country image: {selected_image}")
+    except Exception as e:
+        print(f"[WARNING] Error loading destination country image {selected_image}: {e}")
 else:
     print(f"[WARNING] No destination country images found for: {COUNTRY}")
 
