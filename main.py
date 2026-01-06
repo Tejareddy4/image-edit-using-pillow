@@ -10,7 +10,7 @@ COUNTRY = "Belgium"  # Destination country (right side flag)
 # ---------- FILES ----------
 # Get the directory where the script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(SCRIPT_DIR, "Images/template.png")
+TEMPLATES_DIR = os.path.join(SCRIPT_DIR, "Images/Templates")
 FONT_PATH = os.path.join(SCRIPT_DIR, "fonts/Poppins-Bold.ttf")
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output")
 # FLAGS_DIR = os.path.join(SCRIPT_DIR, "images/flags")
@@ -80,6 +80,30 @@ def wrap_text(text, max_chars=22):
 #         return flag_path
 #     return None
 
+def get_template_path(country_name):
+    """Get the template image path for a given country.
+    Tries multiple naming formats: Title_Case, lowercase, and original.
+    """
+    # Try different formats
+    country_title = country_name.replace(" ", "_").title()
+    country_lower = country_name.replace(" ", "_").lower()
+    country_original = country_name.replace(" ", "_")
+    
+    # Check for template files in different formats
+    template_options = [
+        os.path.join(TEMPLATES_DIR, f"{country_title}.png"),
+        os.path.join(TEMPLATES_DIR, f"{country_original}.png"),
+        os.path.join(TEMPLATES_DIR, f"{country_lower}.png"),
+        os.path.join(TEMPLATES_DIR, f"{country_name}.png"),
+    ]
+    
+    for template_path in template_options:
+        if os.path.exists(template_path):
+            return template_path
+    
+    # If no template found, return None
+    return None
+
 def get_country_images(country_name):
     """Get all country images for a given country.
     Handles both single PNG files (e.g., Belgium.png) and multiple numbered files (e.g., india1.png, india2.png).
@@ -108,8 +132,18 @@ def get_country_images(country_name):
     
     return sorted(country_images)
 
-# ---------- LOAD ----------
-base = Image.open(TEMPLATE).convert("RGBA")
+# ---------- LOAD TEMPLATE ----------
+# Get template based on destination country
+template_path = get_template_path(COUNTRY)
+if template_path:
+    base = Image.open(template_path).convert("RGBA")
+    print(f"[OK] Loaded template for {COUNTRY}: {template_path}")
+else:
+    print(f"[ERROR] Template not found for country: {COUNTRY}")
+    print(f"        Please add a template to {TEMPLATES_DIR}")
+    print(f"        Expected filename format: {COUNTRY.replace(' ', '_')}.png")
+    exit(1)
+
 draw = ImageDraw.Draw(base)
 base_width, base_height = base.size
 
@@ -248,8 +282,12 @@ if text_lines:
             )
 
 # ---------- SAVE ----------
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-out = f"{OUTPUT_DIR}/{CITY.lower().replace(' ','-')}-to-{COUNTRY.lower()}.png"
+# Create country-specific output directory
+country_output_dir = os.path.join(OUTPUT_DIR, COUNTRY.replace(" ", "_"))
+os.makedirs(country_output_dir, exist_ok=True)
+
+# Save output in country folder
+out = os.path.join(country_output_dir, f"{CITY.lower().replace(' ','-')}-to-{COUNTRY.lower().replace(' ', '-')}.png")
 base.save(out)
 
 print("[OK] Generated:", out)
