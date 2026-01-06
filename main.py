@@ -145,49 +145,49 @@ base_width, base_height = base.size
 # else:
 #     print(f"[WARNING] Destination flag not found for: {COUNTRY}")
 
-# Load and paste origin country images (left side)
-origin_country_images = get_country_images(ORIGIN_COUNTRY)
-if origin_country_images:
-    print(f"[OK] Found {len(origin_country_images)} origin country images for {ORIGIN_COUNTRY}")
-    # Randomly select one image from available images
-    selected_image = random.choice(origin_country_images)
-    try:
-        country_img = Image.open(selected_image).convert("RGBA")
-        # Resize country image to appropriate size (adjust as needed)
-        img_width = 300
-        img_height = int(country_img.height * (img_width / country_img.width))
-        country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
-        # Position on left side (adjust coordinates as needed)
-        img_x = 100
-        img_y = base_height - img_height - 150
-        base.paste(country_img, (img_x, img_y), country_img)
-        print(f"[OK] Pasted origin country image: {selected_image}")
-    except Exception as e:
-        print(f"[WARNING] Error loading origin country image {selected_image}: {e}")
-else:
-    print(f"[WARNING] No origin country images found for: {ORIGIN_COUNTRY}")
+# Load and paste origin country images (left side) - COMMENTED OUT
+# origin_country_images = get_country_images(ORIGIN_COUNTRY)
+# if origin_country_images:
+#     print(f"[OK] Found {len(origin_country_images)} origin country images for {ORIGIN_COUNTRY}")
+#     # Randomly select one image from available images
+#     selected_image = random.choice(origin_country_images)
+#     try:
+#         country_img = Image.open(selected_image).convert("RGBA")
+#         # Resize country image to appropriate size (adjust as needed)
+#         img_width = 300
+#         img_height = int(country_img.height * (img_width / country_img.width))
+#         country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
+#         # Position on left side (adjust coordinates as needed)
+#         img_x = 100
+#         img_y = base_height - img_height - 150
+#         base.paste(country_img, (img_x, img_y), country_img)
+#         print(f"[OK] Pasted origin country image: {selected_image}")
+#     except Exception as e:
+#         print(f"[WARNING] Error loading origin country image {selected_image}: {e}")
+# else:
+#     print(f"[WARNING] No origin country images found for: {ORIGIN_COUNTRY}")
 
-# Load and paste destination country images (right side)
-dest_country_images = get_country_images(COUNTRY)
-if dest_country_images:
-    print(f"[OK] Found {len(dest_country_images)} destination country images for {COUNTRY}")
-    # Randomly select one image from available images
-    selected_image = random.choice(dest_country_images)
-    try:
-        country_img = Image.open(selected_image).convert("RGBA")
-        # Resize country image to appropriate size
-        img_width = 300
-        img_height = int(country_img.height * (img_width / country_img.width))
-        country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
-        # Position on right side (adjust coordinates as needed)
-        img_x = base_width - img_width - 100
-        img_y = base_height - img_height - 150
-        base.paste(country_img, (img_x, img_y), country_img)
-        print(f"[OK] Pasted destination country image: {selected_image}")
-    except Exception as e:
-        print(f"[WARNING] Error loading destination country image {selected_image}: {e}")
-else:
-    print(f"[WARNING] No destination country images found for: {COUNTRY}")
+# Load and paste destination country images (right side) - COMMENTED OUT
+# dest_country_images = get_country_images(COUNTRY)
+# if dest_country_images:
+#     print(f"[OK] Found {len(dest_country_images)} destination country images for {COUNTRY}")
+#     # Randomly select one image from available images
+#     selected_image = random.choice(dest_country_images)
+#     try:
+#         country_img = Image.open(selected_image).convert("RGBA")
+#         # Resize country image to appropriate size
+#         img_width = 300
+#         img_height = int(country_img.height * (img_width / country_img.width))
+#         country_img = country_img.resize((img_width, img_height), Image.Resampling.LANCZOS)
+#         # Position on right side (adjust coordinates as needed)
+#         img_x = base_width - img_width - 100
+#         img_y = base_height - img_height - 150
+#         base.paste(country_img, (img_x, img_y), country_img)
+#         print(f"[OK] Pasted destination country image: {selected_image}")
+#     except Exception as e:
+#         print(f"[WARNING] Error loading destination country image {selected_image}: {e}")
+# else:
+#     print(f"[WARNING] No destination country images found for: {COUNTRY}")
 
 # ---------- FONT ----------
 try:
