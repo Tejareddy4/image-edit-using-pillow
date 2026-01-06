@@ -98,6 +98,12 @@ def get_country_images(country_name):
 
 def get_csv_file():
     """Get the first CSV file in the csv directory."""
+    # Try Countries.csv first
+    countries_csv = os.path.join(CSV_DIR, 'Countries.csv')
+    if os.path.exists(countries_csv):
+        return countries_csv
+    
+    # Fallback to any CSV file
     if os.path.exists(CSV_DIR):
         for filename in os.listdir(CSV_DIR):
             if filename.endswith('.csv'):
@@ -109,17 +115,15 @@ def process_image(city, country):
     
     # Skip if country is empty
     if not country or country.strip() == "":
-        print(f"[SKIP] {city} - No country specified")
         return False
-    
-    print(f"\n[PROCESSING] {city} to {country}")
     
     # ---------- LOAD TEMPLATE ----------
     # Get template based on destination country
     template_path = get_template_path(country)
     if not template_path:
-        print(f"[SKIP] Template not found for country: {country}")
         return False
+    
+    print(f"[PROCESSING] {city} to {country}")
     
     try:
         base = Image.open(template_path).convert("RGBA")
@@ -261,15 +265,25 @@ def main():
             reader = csv.DictReader(f)
             for row in reader:
                 # Get country and city from the row
-                # Assuming columns: "Country" and "City"
                 country = row.get('Country', '').strip()
+                
+                # Try to get city from 'City' column first
                 city = row.get('City', '').strip()
                 
-                if city and country:
-                    if process_image(city, country):
-                        processed += 1
-                    else:
-                        skipped += 1
+                # If city is empty, extract it from 'City to country name' column
+                if not city:
+                    city_to_country = row.get('City to country name', '').strip()
+                    if city_to_country and ' to ' in city_to_country:
+                        # Extract city name (everything before ' to ')
+                        city = city_to_country.split(' to ')[0].strip()
+                
+                # Skip if city or country is empty
+                if not city or not country:
+                    skipped += 1
+                    continue
+                
+                if process_image(city, country):
+                    processed += 1
                 else:
                     skipped += 1
     
