@@ -2,6 +2,8 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 import random
 import csv
+import subprocess
+import sys
 
 # ---------- FILES ----------
 # Get the directory where the script is located
@@ -115,6 +117,17 @@ def process_image(city, country):
     
     # Skip if country is empty
     if not country or country.strip() == "":
+        return False
+
+    # ---------- EARLY EXIT: ALREADY GENERATED ----------
+    country_output_dir = os.path.join(OUTPUT_DIR, country.replace(" ", "_"))
+    out = os.path.join(
+        country_output_dir,
+        f"{city.lower().replace(' ','-')}-to-{country.lower().replace(' ', '-')}.png",
+    )
+
+    if os.path.exists(out):
+        print(f"[SKIP] Already exists: {out}")
         return False
     
     # ---------- LOAD TEMPLATE ----------
@@ -236,11 +249,9 @@ def process_image(city, country):
     
     # ---------- SAVE ----------
     # Create country-specific output directory
-    country_output_dir = os.path.join(OUTPUT_DIR, country.replace(" ", "_"))
     os.makedirs(country_output_dir, exist_ok=True)
-    
+
     # Save output in country folder
-    out = os.path.join(country_output_dir, f"{city.lower().replace(' ','-')}-to-{country.lower().replace(' ', '-')}.png")
     base.save(out)
     
     print(f"[OK] Generated: {out}")
@@ -294,6 +305,17 @@ def main():
     print(f"\n{'='*50}")
     print(f"[SUMMARY] Processed: {processed} | Skipped: {skipped}")
     print(f"{'='*50}")
+    
+    # After successful completion, run check_templates.py
+    print(f"\n[INFO] Running template check...")
+    check_templates_path = os.path.join(SCRIPT_DIR, "check_templates.py")
+    try:
+        result = subprocess.run([sys.executable, check_templates_path], check=True)
+        print(f"[OK] Template check completed successfully")
+    except subprocess.CalledProcessError as e:
+        print(f"[ERROR] Template check failed with exit code {e.returncode}")
+    except Exception as e:
+        print(f"[ERROR] Failed to run template check: {e}")
 
 if __name__ == "__main__":
     main()

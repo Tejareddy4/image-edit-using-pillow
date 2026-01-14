@@ -6,11 +6,11 @@ SUMMARY
 ----------------------------------------------------------------------------------------------------
 Total CSV Entries: 1224
 Total Unique Countries: 18
-Countries WITH templates: 8
-Countries WITHOUT templates: 10
+Countries WITH templates: 9
+Countries WITHOUT templates: 9
 
-Images that CAN be generated: 544
-Images that CANNOT be generated: 680
+Images that CAN be generated: 612
+Images that CANNOT be generated: 612
 
 
 ====================================================================================================
@@ -23,6 +23,7 @@ Images that CANNOT be generated: 680
   Denmark                   -  68 cities | Rows: 954-1021       | Template: Denmark.png
   Estonia                   -  68 cities | Rows: 1022-1089      | Template: Estonia.png
   Finland                   -  68 cities | Rows: 1090-1157      | Template: Finland.png
+  France                    -  68 cities | Rows: 410-477        | Template: France.png
   Greece                    -  68 cities | Rows: 1158-1225      | Template: Greece.png
 
 
@@ -32,7 +33,6 @@ Images that CANNOT be generated: 680
   Austria                   -  68 cities | Rows: 614-681        | MISSING: Austria.png
   Canada                    -  68 cities | Rows: 342-409        | MISSING: Canada.png
   Europe                    -  68 cities | Rows: 138-205        | MISSING: Europe.png
-  France                    -  68 cities | Rows: 410-477        | MISSING: France.png
   Germany                   -  68 cities | Rows: 206-273        | MISSING: Germany.png
   Italy                     -  68 cities | Rows: 478-545        | MISSING: Italy.png
   Portugal                  -  68 cities | Rows: 546-613        | MISSING: Portugal.png
