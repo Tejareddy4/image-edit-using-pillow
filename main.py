@@ -162,7 +162,6 @@ base_width, base_height = base.size
 #     print(f"[OK] Loaded origin flag: {origin_flag_path}")
 # else:
 #     print(f"[WARNING] Origin flag not found for: {ORIGIN_COUNTRY}")
-
 # Load destination flag (right side) - COMMENTED OUT
 # dest_flag_path = get_flag_path(COUNTRY)
 # if dest_flag_path:
@@ -271,7 +270,6 @@ if text_lines:
         except:
             # Fallback: estimate based on font size (approximately font_size * 1.2 + spacing)
             line_height = 80  # Approximate for 64pt font
-        
         # Draw remaining lines
         for i, line in enumerate(text_lines[1:], start=1):
             draw.text(
