@@ -6,16 +6,17 @@ SUMMARY
 ----------------------------------------------------------------------------------------------------
 Total CSV Entries: 1224
 Total Unique Countries: 18
-Countries WITH templates: 10
-Countries WITHOUT templates: 8
+Countries WITH templates: 12
+Countries WITHOUT templates: 6
 
-Images that CAN be generated: 680
-Images that CANNOT be generated: 544
+Images that CAN be generated: 816
+Images that CANNOT be generated: 408
 
 
 ====================================================================================================
 ✓ COUNTRIES WITH MATCHING TEMPLATES
 ====================================================================================================
+  Austria                   -  68 cities | Rows: 614-681        | Template: Austria.png
   Belgium                   -  68 cities | Rows: 682-749        | Template: Belgium.png
   Bulgaria                  -  68 cities | Rows: 750-817        | Template: Bulgaria.png
   Croatia                   -  68 cities | Rows: 818-885        | Template: Croatia.png
@@ -26,16 +27,15 @@ Images that CANNOT be generated: 544
   France                    -  68 cities | Rows: 410-477        | Template: France.png
   Greece                    -  68 cities | Rows: 1158-1225      | Template: Greece.png
   Italy                     -  68 cities | Rows: 478-545        | Template: Italy.png
+  Portugal                  -  68 cities | Rows: 546-613        | Template: Portugal.png
 
 
 ====================================================================================================
 ✗ COUNTRIES WITHOUT MATCHING TEMPLATES (NEEDS ACTION)
 ====================================================================================================
-  Austria                   -  68 cities | Rows: 614-681        | MISSING: Austria.png
   Canada                    -  68 cities | Rows: 342-409        | MISSING: Canada.png
   Europe                    -  68 cities | Rows: 138-205        | MISSING: Europe.png
   Germany                   -  68 cities | Rows: 206-273        | MISSING: Germany.png
-  Portugal                  -  68 cities | Rows: 546-613        | MISSING: Portugal.png
   UAE                       -  68 cities | Rows: 70-137         | MISSING: UAE.png
   UK                        -  68 cities | Rows: 274-341        | MISSING: UK.png
   US                        -  68 cities | Rows: 2-69           | MISSING: US.png
